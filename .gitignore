@@ -1,0 +1,13 @@
+# Dependencies
+node_modules/
+
+# Sensitive / generated (do not commit)
+lc-scripts/.leetcode_cn_session
+lc-scripts/.submissions_cache.json
+lc-scripts/.debug_subs_count.txt
+.leetcode_cn_session
+.submissions_cache.json
+.debug_subs_count.txt
+
+# OS
+.DS_Store

@@ -1,0 +1,10 @@
+{
+  "name": "leetcode-glance-widget",
+  "version": "1.0.0",
+  "description": "Übersicht widget for LeetCode China (力扣) stats",
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "leetcode-query": "^2.0.1"
+  }
+}
