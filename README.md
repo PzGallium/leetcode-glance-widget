@@ -2,15 +2,13 @@
   <img src="assets/widget-preview.png" alt="LeetCode Glance 组件预览" width="600">
 </p>
 
-# LeetCode Glance — 力扣桌面组件
+# LeetCode Glance
 
-A desktop widget for [Übersicht](https://tracesof.net/uebersicht/) that displays your **LeetCode China (力扣中国站 leetcode.cn)** stats on macOS.
-
-在 macOS 桌面通过 Übersicht 显示你的**力扣中国站 (leetcode.cn)** 做题统计。
+A desktop widget for [Übersicht](https://tracesof.net/uebersicht/) that displays your LeetCode stats on macOS (leetcode.com or 力扣中国站).
 
 ---
 
-**语言 / Language:** [English](#en) | [中文](#zh)
+**Language:** [English (leetcode.com)](#en) | [中文 (力扣中国站)](#zh)
 
 ---
 
@@ -18,9 +16,11 @@ A desktop widget for [Übersicht](https://tracesof.net/uebersicht/) that display
 
 ## English
 
+**Using LeetCode China (力扣)?** [View instructions in 中文](#zh).
+
 ### Overview
 
-A desktop widget for [Übersicht](https://tracesof.net/uebersicht/) that displays your **LeetCode China (力扣中国站 leetcode.cn)** stats on macOS: total solved, acceptance rate (when available), and submission calendar.
+A desktop widget for [Übersicht](https://tracesof.net/uebersicht/) that displays your **LeetCode (leetcode.com)** stats on macOS: total solved, acceptance rate (when available), and submission calendar.
 
 ### Installation
 
@@ -38,7 +38,7 @@ A desktop widget for [Übersicht](https://tracesof.net/uebersicht/) that display
    Copy **all contents** of the unzipped folder (`leetcode-glance.jsx`, `lc-scripts/`, `package.json`) into your Übersicht Widgets Folder.  
    (You can also move the entire unzipped folder there so that the Widgets Folder contains a subfolder named `leetcode-glance-widget` with these files inside.)
 
-5. **Install dependencies (for 力扣中国站)**  
+5. **Install dependencies**  
    Open Terminal and run:
    ```bash
    cd "$HOME/Library/Application Support/Übersicht/widgets"
@@ -47,15 +47,14 @@ A desktop widget for [Übersicht](https://tracesof.net/uebersicht/) that display
 
 6. **Configure**  
    Open `leetcode-glance.jsx` and set:
-   - `USE_LEETCODE_CN = true` for 力扣中国站, or `false` for leetcode.com.
-   - `LEETCODE_USERNAME` to your LeetCode (or 力扣) username.
+   - `USE_LEETCODE_CN = false` for leetcode.com.
+   - `LEETCODE_USERNAME` to your LeetCode username.
 
 7. The widget should now appear on your desktop. Refresh from the Übersicht menu if needed.
 
 ### Full-year calendar (optional)
 
-If you use **LeetCode China** and want the **full-year** submission calendar, you need to provide your login cookie.  
-See `lc-scripts/README-日历.md` for steps (cookie file `.leetcode_cn_session` in `lc-scripts/`).
+For extended calendar options, see the documentation in `lc-scripts/`.
 
 ### Moving the widget
 
@@ -63,11 +62,11 @@ In `leetcode-glance.jsx`, edit the `top` and `left` values under the **POSITIONI
 
 ### Features
 
-| Feature        | Description                                                                 |
-|----------------|-----------------------------------------------------------------------------|
-| Total Solved   | Shows total number of accepted problems on 力扣/LeetCode.                   |
-| Acceptance     | Shown when submission data is available; hidden when there is no data.     |
-| Calendar       | Daily submission heatmap; full-year when cookie is set for China site.     |
+| Feature        | Description                                                             |
+|----------------|-------------------------------------------------------------------------|
+| Total Solved   | Shows total number of accepted problems on LeetCode.                   |
+| Acceptance     | Shown when submission data is available; hidden when there is no data. |
+| Calendar       | Daily submission heatmap.                                               |
 
 ### License
 
