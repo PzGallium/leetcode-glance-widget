@@ -14,6 +14,10 @@ export { command };
 export const refreshFrequency = 300000;
 
 // --- STYLING (JSX-in-CSS) ---
+// LeetCode 品牌色：橙 #FEA116，黑 #1a1a1a（图标两色）
+const LEETCODE_ORANGE = '#FEA116';
+const LEETCODE_BLACK = '#1a1a1a';
+
 // 位置：改下面 POSITIONING 里的 top/left。例：右上 top: 60px; left: auto; right: 20px; transform: none;
 export const className = `
   top: 50%;
@@ -22,37 +26,37 @@ export const className = `
 
   width: 340px;
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
-  background: rgba(34, 34, 58, 0.85);
+  background: rgba(26, 26, 26, 0.9);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border-radius: 24px;
-  border: 1.5px solid rgba(255,255,255,0.12);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  border: 1.5px solid rgba(254, 161, 22, 0.35);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35);
   overflow: hidden;
   transition: all 0.3s cubic-bezier(.4,0,.2,1);
 
   .header {
-    background: linear-gradient(135deg, #3a2d71 0%, #1e1b3a 100%);
+    background: ${LEETCODE_BLACK};
     color: #fff;
     padding: 20px 24px 12px 24px;
     display: flex;
     align-items: center;
     gap: 14px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border-bottom: 2px solid ${LEETCODE_ORANGE};
   }
 
   .leetcode-icon {
     width: 36px;
     height: 36px;
-    background: linear-gradient(135deg, #ff6a00 0%, #ffb347 100%);
+    background: ${LEETCODE_ORANGE};
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: bold;
     font-size: 18px;
-    color: #fff;
-    box-shadow: 0 2px 8px rgba(255,106,0,0.15);
+    color: ${LEETCODE_BLACK};
+    box-shadow: 0 2px 8px rgba(254, 161, 22, 0.4);
   }
 
   .header-text { flex: 1; }
@@ -61,24 +65,25 @@ export const className = `
 
   .content {
     padding: 24px 24px 18px 24px;
-    background: rgba(255,255,255,0.06);
+    background: rgba(0,0,0,0.25);
     border-radius: 0 0 24px 24px;
     min-height: 180px;
   }
 
   .stat-card {
-    background: rgba(255,255,255,0.10);
+    background: rgba(254, 161, 22, 0.12);
     border-radius: 14px;
     padding: 16px 0;
     text-align: center;
     margin-bottom: 16px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+    border: 1px solid rgba(254, 161, 22, 0.2);
   }
 
-  .stat-number { font-size: 26px; font-weight: 700; color: #fff; margin: 0; }
-  .stat-label { font-size: 12px; color: #e0e0e0; margin: 2px 0 0 0; font-weight: 500; }
+  .stat-number { font-size: 26px; font-weight: 700; color: ${LEETCODE_ORANGE}; margin: 0; }
+  .stat-label { font-size: 12px; color: rgba(255,255,255,0.75); margin: 2px 0 0 0; font-weight: 500; }
 
-  .section-title { font-size: 14px; font-weight: 600; color: #fff; margin: 18px 0 10px 0; }
+  .section-title { font-size: 14px; font-weight: 600; color: ${LEETCODE_ORANGE}; margin: 18px 0 10px 0; }
 
   .submission-calendar {
     display: grid;
@@ -92,16 +97,16 @@ export const className = `
   .calendar-day {
     aspect-ratio: 1 / 1;
     border-radius: 4px;
-    background-color: #23234a;
+    background-color: rgba(26, 26, 26, 0.8);
     width: 100%;
     transition: background 0.2s;
   }
 
-  .calendar-day.level-0 { background-color:rgba(21, 21, 55, 0.5); }
-  .calendar-day.level-1 { background-color:rgb(5, 94, 54); }
-  .calendar-day.level-2 { background-color:rgb(8, 135, 67); }
-  .calendar-day.level-3 { background-color: #26a641; }
-  .calendar-day.level-4 { background-color: #39d353; }
+  .calendar-day.level-0 { background-color: rgba(26, 26, 26, 0.6); }
+  .calendar-day.level-1 { background-color: rgba(254, 161, 22, 0.35); }
+  .calendar-day.level-2 { background-color: rgba(254, 161, 22, 0.55); }
+  .calendar-day.level-3 { background-color: rgba(254, 161, 22, 0.75); }
+  .calendar-day.level-4 { background-color: ${LEETCODE_ORANGE}; }
 
   .difficulty-section { margin-top: 10px; }
   .difficulty-item { display: flex; align-items: center; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,0.07); }
@@ -114,8 +119,8 @@ export const className = `
   .difficulty-name { font-size: 13px; color: #fff; font-weight: 500; }
   .difficulty-count { font-size: 14px; font-weight: 600; color: #fff; }
 
-  .error, .loading { color: #ffb347; text-align: center; font-size: 13px; padding: 20px; }
-  .error { color: #ff375f; }
+  .error, .loading { color: ${LEETCODE_ORANGE}; text-align: center; font-size: 13px; padding: 20px; }
+  .error { color: #ff6b6b; }
 `;
 
 const renderCalendar = (submissionCalendar) => {
