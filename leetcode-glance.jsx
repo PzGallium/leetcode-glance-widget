@@ -31,9 +31,14 @@ export { command };
 export const refreshFrequency = 300000;
 
 // --- STYLING (JSX-in-CSS) ---
-// LeetCode 品牌色：橙 #FEA116，黑 #1a1a1a（图标两色）
-const LEETCODE_ORANGE = '#FEA116';
-const LEETCODE_BLACK = '#1a1a1a';
+// 参考 LeetCode 图标：深炭灰底、纯白、柔和橙、浅灰，苹果桌面组件感
+const LC_ORANGE = '#d4a017';
+const LC_ORANGE_BRIGHT = '#e8a317';
+const LC_BG_DARK = '#0f0f0f';
+const LC_WHITE = '#ffffff';
+const LC_GRAY = 'rgba(255,255,255,0.82)';
+const LC_BORDER = 'rgba(255,255,255,0.32)';
+const LC_ORANGE_TINT = 'rgba(212,160,23,0.28)';
 
 // 位置：改下面 POSITIONING 里的 top/left。例：右上 top: 60px; left: auto; right: 20px; transform: none;
 export const className = `
@@ -43,64 +48,65 @@ export const className = `
 
   width: 340px;
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
-  background: rgba(26, 26, 26, 0.9);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border-radius: 24px;
-  border: 1.5px solid rgba(254, 161, 22, 0.35);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+  background: rgba(15, 15, 15, 0.84);
+  backdrop-filter: blur(24px) saturate(1.1);
+  -webkit-backdrop-filter: blur(24px) saturate(1.1);
+  border-radius: 20px;
+  border: 1px solid ${LC_BORDER};
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.02) inset;
   overflow: hidden;
-  transition: all 0.3s cubic-bezier(.4,0,.2,1);
+  transition: all 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
 
   .header {
-    background: ${LEETCODE_BLACK};
-    color: #fff;
-    padding: 20px 24px 12px 24px;
+    background: ${LC_BG_DARK};
+    color: ${LC_WHITE};
+    padding: 18px 22px 14px 22px;
     display: flex;
     align-items: center;
     gap: 14px;
-    border-bottom: 2px solid ${LEETCODE_ORANGE};
+    border-bottom: 1px solid ${LC_BORDER};
   }
 
   .leetcode-icon {
     width: 36px;
     height: 36px;
-    background: ${LEETCODE_ORANGE};
-    border-radius: 12px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: bold;
-    font-size: 18px;
-    color: ${LEETCODE_BLACK};
-    box-shadow: 0 2px 8px rgba(254, 161, 22, 0.4);
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .leetcode-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
 
   .header-text { flex: 1; }
-  .username { font-size: 20px; font-weight: 700; margin: 0; letter-spacing: 0.5px; }
-  .subtitle { font-size: 13px; opacity: 0.85; margin: 2px 0 0 0; }
+  .username { font-size: 19px; font-weight: 600; margin: 0; letter-spacing: -0.02em; color: ${LC_WHITE}; }
+  .subtitle { font-size: 12px; color: ${LC_GRAY}; margin: 3px 0 0 0; font-weight: 500; }
 
   .content {
-    padding: 24px 24px 18px 24px;
-    background: rgba(0,0,0,0.25);
-    border-radius: 0 0 24px 24px;
+    padding: 22px 22px 18px 22px;
+    background: rgba(0,0,0,0.45);
+    border-radius: 0 0 20px 20px;
     min-height: 180px;
   }
 
   .stat-card {
-    background: rgba(254, 161, 22, 0.12);
-    border-radius: 14px;
-    padding: 16px 0;
+    background: ${LC_ORANGE_TINT};
+    border-radius: 12px;
+    padding: 14px 0;
     text-align: center;
-    margin-bottom: 16px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
-    border: 1px solid rgba(254, 161, 22, 0.2);
+    margin-bottom: 14px;
+    border: 1px solid rgba(212,160,23,0.2);
   }
 
-  .stat-number { font-size: 26px; font-weight: 700; color: ${LEETCODE_ORANGE}; margin: 0; }
-  .stat-label { font-size: 12px; color: rgba(255,255,255,0.75); margin: 2px 0 0 0; font-weight: 500; }
+  .stat-number { font-size: 25px; font-weight: 700; color: ${LC_ORANGE_BRIGHT}; margin: 0; letter-spacing: -0.02em; }
+  .stat-label { font-size: 11px; color: ${LC_GRAY}; margin: 2px 0 0 0; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
 
-  .section-title { font-size: 14px; font-weight: 600; color: ${LEETCODE_ORANGE}; margin: 18px 0 10px 0; }
+  .section-title { font-size: 13px; font-weight: 600; color: ${LC_ORANGE}; margin: 16px 0 10px 0; letter-spacing: 0.02em; }
 
   .submission-calendar {
     display: grid;
@@ -114,29 +120,29 @@ export const className = `
   .calendar-day {
     aspect-ratio: 1 / 1;
     border-radius: 4px;
-    background-color: rgba(26, 26, 26, 0.8);
+    background-color: rgba(255,255,255,0.08);
     width: 100%;
-    transition: background 0.2s;
+    transition: background 0.2s ease;
   }
 
-  .calendar-day.level-0 { background-color: rgba(26, 26, 26, 0.6); }
-  .calendar-day.level-1 { background-color: rgba(254, 161, 22, 0.35); }
-  .calendar-day.level-2 { background-color: rgba(254, 161, 22, 0.55); }
-  .calendar-day.level-3 { background-color: rgba(254, 161, 22, 0.75); }
-  .calendar-day.level-4 { background-color: ${LEETCODE_ORANGE}; }
+  .calendar-day.level-0 { background-color: rgba(255,255,255,0.08); }
+  .calendar-day.level-1 { background-color: rgba(212,160,23,0.4); }
+  .calendar-day.level-2 { background-color: rgba(212,160,23,0.58); }
+  .calendar-day.level-3 { background-color: rgba(212,160,23,0.78); }
+  .calendar-day.level-4 { background-color: ${LC_ORANGE}; }
 
   .difficulty-section { margin-top: 10px; }
-  .difficulty-item { display: flex; align-items: center; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,0.07); }
+  .difficulty-item { display: flex; align-items: center; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid ${LC_BORDER}; }
   .difficulty-item:last-child { border-bottom: none; }
   .difficulty-info { display: flex; align-items: center; gap: 8px; }
   .difficulty-dot { width: 8px; height: 8px; border-radius: 50%; }
-  .difficulty-dot.easy { background: #00e6a3; }
-  .difficulty-dot.medium { background: #ffc01e; }
-  .difficulty-dot.hard { background: #ff375f; }
-  .difficulty-name { font-size: 13px; color: #fff; font-weight: 500; }
-  .difficulty-count { font-size: 14px; font-weight: 600; color: #fff; }
+  .difficulty-dot.easy { background: #34c759; }
+  .difficulty-dot.medium { background: #ff9500; }
+  .difficulty-dot.hard { background: #ff3b30; }
+  .difficulty-name { font-size: 13px; color: ${LC_WHITE}; font-weight: 500; }
+  .difficulty-count { font-size: 14px; font-weight: 600; color: ${LC_WHITE}; }
 
-  .error, .loading { color: ${LEETCODE_ORANGE}; text-align: center; font-size: 13px; padding: 20px; }
+  .error, .loading { color: ${LC_ORANGE}; text-align: center; font-size: 13px; padding: 20px; }
   .error { color: #ff6b6b; }
 `;
 
@@ -184,7 +190,7 @@ export const render = ({ output, error }) => {
     const errText = error != null ? (typeof error === "string" ? error : (error.message || String(error))) : "";
     return (
       <div>
-        <div className="header"><div className="leetcode-icon">LC</div><div className="header-text"><h1 className="username">LeetCode</h1><p className="subtitle">No Data</p></div></div>
+        <div className="header"><div className="leetcode-icon"><img src="leetcode-glance-widget/assets/leetcode-icon.png" alt="LeetCode" /></div><div className="header-text"><h1 className="username">LeetCode</h1><p className="subtitle">No Data</p></div></div>
         <div className="content"><div className="error">Could not fetch data.{errText ? <><br /><small>{errText}</small></> : null}</div></div>
       </div>
     );
@@ -192,7 +198,7 @@ export const render = ({ output, error }) => {
   if (output.includes('error') || output.includes('<!DOCTYPE')) {
     return (
       <div>
-        <div className="header"><div className="leetcode-icon">LC</div><div className="header-text"><h1 className="username">API Error</h1><p className="subtitle">Invalid Response</p></div></div>
+        <div className="header"><div className="leetcode-icon"><img src="leetcode-glance-widget/assets/leetcode-icon.png" alt="LeetCode" /></div><div className="header-text"><h1 className="username">API Error</h1><p className="subtitle">Invalid Response</p></div></div>
         <div className="content"><div className="error">API error.</div></div>
       </div>
     );
@@ -203,7 +209,7 @@ export const render = ({ output, error }) => {
     if (!isSuccess) {
       return (
         <div>
-          <div className="header"><div className="leetcode-icon">LC</div><div className="header-text"><h1 className="username">LeetCode</h1><p className="subtitle">Fetch Failed</p></div></div>
+          <div className="header"><div className="leetcode-icon"><img src="leetcode-glance-widget/assets/leetcode-icon.png" alt="LeetCode" /></div><div className="header-text"><h1 className="username">LeetCode</h1><p className="subtitle">Fetch Failed</p></div></div>
           <div className="content"><div className="error">Failed to fetch data for user "{LEETCODE_USERNAME}".</div></div>
         </div>
       );
@@ -216,7 +222,7 @@ export const render = ({ output, error }) => {
     return (
       <div>
         <div className="header">
-          <div className="leetcode-icon">LC</div>
+          <div className="leetcode-icon"><img src="leetcode-glance-widget/assets/leetcode-icon.png" alt="LeetCode" /></div>
           <div className="header-text">
             <h1 className="username">{LEETCODE_USERNAME}</h1>
             <p className="subtitle">LeetCode Stats {rankText != null && <span style={{marginLeft:8}}>Rank #{rankText}</span>}</p>
@@ -243,7 +249,7 @@ export const render = ({ output, error }) => {
   } catch (e) {
     return (
       <div>
-        <div className="header"><div className="leetcode-icon">LC</div><div className="header-text"><h1 className="username">LeetCode</h1><p className="subtitle">Loading...</p></div></div>
+        <div className="header"><div className="leetcode-icon"><img src="leetcode-glance-widget/assets/leetcode-icon.png" alt="LeetCode" /></div><div className="header-text"><h1 className="username">LeetCode</h1><p className="subtitle">Loading...</p></div></div>
         <div className="content"><div className="loading">Fetching data...</div></div>
       </div>
     );
