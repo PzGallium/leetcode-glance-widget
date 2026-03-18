@@ -28,8 +28,9 @@
 1. 在浏览器打开 https://leetcode.cn 并登录。
 2. 按 F12 打开开发者工具 → Application（应用程序）→ Cookies → 选中 leetcode.cn。
 3. 找到名为 `LEETCODE_SESSION` 的 Cookie，复制其**值**（一长串字符）。
-4. 在 **widget 根目录**（`leetcode-glance-widget` 文件夹下）新建文件 `.leetcode_cn_session`，把复制的值粘贴进去保存（只放这一串，不要引号、不要多余空格）。  
-   也可用一条命令完成：  
+4. 把LEETCODE_SESSION给widget
+    a.在 **widget 根目录**（`leetcode-glance-widget` 文件夹下）新建文件 `.leetcode_cn_session`，把复制的值粘贴进去保存（只放这一串，不要引号、不要多余空格）。  
+   b. 也可用一条命令完成：  
    `echo "你复制的LEETCODE_SESSION值" > "$HOME/Library/Application Support/Übersicht/widgets/leetcode-glance-widget/.leetcode_cn_session"`
 5. 重新加载 widget。
 
