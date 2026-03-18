@@ -1,9 +1,11 @@
 // LeetCode Stats Widget for Übersicht
 // Fetches and displays LeetCode statistics (supports 力扣中国站 leetcode.cn and leetcode.com).
 
+const React = require("react");
+
 // --- CONFIGURATION ---
 const USE_LEETCODE_CN = true;
-const LEETCODE_USERNAME = "YourUsername"; // 改成你的力扣/LeetCode 用户名
+const LEETCODE_USERNAME = "PzGallium"; // 改成你的力扣/LeetCode 用户名
 
 // --- CORE LOGIC ---
 const command = USE_LEETCODE_CN
