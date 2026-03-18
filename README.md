@@ -32,7 +32,7 @@ A desktop widget for [Übersicht](https://tracesof.net/uebersicht/) that display
 
 3. **Download**  
    Download this repository as a ZIP file and unzip it.  
-   (Or clone: `git clone https://github.com/YOUR_USERNAME/leetcode-glance-widget.git`)
+   (Or clone: `git clone https://github.com/PzGallium/leetcode-glance-widget.git`)
 
 4. **Move files into Widgets Folder**  
    Copy **all contents** of the unzipped folder (`leetcode-glance.jsx`, `lc-scripts/`, `package.json`) into your Übersicht Widgets Folder.  
