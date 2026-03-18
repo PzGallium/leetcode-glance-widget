@@ -95,12 +95,12 @@ export const className = `
   }
 
   .stat-card {
-    background: ${LC_ORANGE_TINT};
+    background: rgba(255,255,255,0.08);
     border-radius: 12px;
     padding: 14px 0;
     text-align: center;
     margin-bottom: 14px;
-    border: 1px solid rgba(212,160,23,0.2);
+    border: 1px solid rgba(212,160,23,0.16);
   }
 
   .stat-number { font-size: 25px; font-weight: 700; color: ${LC_ORANGE_BRIGHT}; margin: 0; letter-spacing: -0.02em; }
