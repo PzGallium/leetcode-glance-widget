@@ -17,10 +17,13 @@ const React = {
 // --- CONFIGURATION ---
 const USE_LEETCODE_CN = true;
 const LEETCODE_USERNAME = "PzGallium"; // 改成你的力扣/LeetCode 用户名
+// 全年日历需登录态：把力扣 Cookie 里的 LEETCODE_SESSION 写入下方路径的文件（一行，仅 token）
+// 例: echo "eyJhbGc..." > ~/Library/Application\ Support/Übersicht/widgets/leetcode-glance-widget/.leetcode_cn_session
 
 // --- CORE LOGIC ---
+const WIDGET_DIR = '$HOME/Library/Application Support/Übersicht/widgets/leetcode-glance-widget';
 const command = USE_LEETCODE_CN
-  ? `export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH" && export LEETCODE_CN_SESSION_FILE="$HOME/Library/Application Support/Übersicht/widgets/lc-scripts/.leetcode_cn_session" && cd "$HOME/Library/Application Support/Übersicht/widgets" && node lc-scripts/fetch-lc-cn.mjs "${LEETCODE_USERNAME}"`
+  ? `export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH" && export LEETCODE_CN_SESSION_FILE="${WIDGET_DIR}/.leetcode_cn_session" && cd "${WIDGET_DIR}" && node lc-scripts/fetch-lc-cn.mjs "${LEETCODE_USERNAME}"`
   : `curl -s "https://leetcode-stats-api.vercel.app/${LEETCODE_USERNAME}"`;
 export { command };
 
@@ -141,7 +144,7 @@ const renderCalendar = (submissionCalendar) => {
     return <p className="loading">No submission data available.</p>;
   }
   const days = [];
-  const daysToShow = 182;
+  const daysToShow = 182; // 最近半年
   for (let i = 0; i < daysToShow; i++) {
     const date = new Date();
     date.setDate(date.getDate() - (daysToShow - 1 - i));

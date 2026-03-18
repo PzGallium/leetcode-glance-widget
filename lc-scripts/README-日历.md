@@ -18,23 +18,19 @@
 
 2. **过期后重新复制一次**  
    当 widget 里**全年日历突然变空**或**又只剩最近一点**时，多半是登录态过期了。  
-   按下面「方式二」再在浏览器里复制一次 `LEETCODE_SESSION`，覆盖更新 `.leetcode_cn_session` 即可，无需改脚本。
+   按下面步骤再在浏览器里复制一次 `LEETCODE_SESSION`，覆盖更新 `.leetcode_cn_session` 即可，无需改脚本。
 
 3. **（可选）提醒自己定期更新**  
    在日历里设一个每 2～3 周的提醒：“更新力扣 widget 的 LEETCODE_SESSION”，打开 leetcode.cn 复制一次 Cookie 到 `.leetcode_cn_session`，能减少“突然失效”的感觉。
 
-## 方式一：环境变量（推荐给命令行测试）
-
-```bash
-export LEETCODE_CN_SESSION="你的LEETCODE_SESSION值"
-```
-
-## 方式二：本地文件（推荐给 Übersicht widget）
+## 配置登录态（本地文件）
 
 1. 在浏览器打开 https://leetcode.cn 并登录。
 2. 按 F12 打开开发者工具 → Application（应用程序）→ Cookies → 选中 leetcode.cn。
 3. 找到名为 `LEETCODE_SESSION` 的 Cookie，复制其**值**（一长串字符）。
-4. 在本目录下新建文件 `.leetcode_cn_session`，把刚才复制的值粘贴进去保存（只放这一串，不要引号、不要多余空格）。
+4. 在 **widget 根目录**（`leetcode-glance-widget` 文件夹下）新建文件 `.leetcode_cn_session`，把复制的值粘贴进去保存（只放这一串，不要引号、不要多余空格）。  
+   也可用一条命令完成：  
+   `echo "你复制的LEETCODE_SESSION值" > "$HOME/Library/Application Support/Übersicht/widgets/leetcode-glance-widget/.leetcode_cn_session"`
 5. 重新加载 widget。
 
 注意：不要将 `.leetcode_cn_session` 提交到 Git 或分享给他人，里面是登录凭证。
