@@ -21,9 +21,10 @@ const LEETCODE_USERNAME = "PzGallium"; // 改成你的力扣/LeetCode 用户名
 // 例: echo "eyJhbGc..." > ~/Library/Application\ Support/Übersicht/widgets/leetcode-glance-widget/.leetcode_cn_session
 
 // --- CORE LOGIC ---
+// 确保有 HOME（Übersicht 可能不传环境变量），再跑脚本
 const WIDGET_DIR = '$HOME/Library/Application Support/Übersicht/widgets/leetcode-glance-widget';
 const command = USE_LEETCODE_CN
-  ? `export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH" && export LEETCODE_CN_SESSION_FILE="${WIDGET_DIR}/.leetcode_cn_session" && cd "${WIDGET_DIR}" && node lc-scripts/fetch-lc-cn.mjs "${LEETCODE_USERNAME}"`
+  ? `export HOME="\${HOME:-$(eval echo ~)}" && export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH" && export LEETCODE_CN_SESSION_FILE="${WIDGET_DIR}/.leetcode_cn_session" && cd "${WIDGET_DIR}" && node lc-scripts/fetch-lc-cn.mjs "${LEETCODE_USERNAME}"`
   : `curl -s "https://leetcode-stats-api.vercel.app/${LEETCODE_USERNAME}"`;
 export { command };
 
