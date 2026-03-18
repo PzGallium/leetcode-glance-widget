@@ -1,7 +1,18 @@
 // LeetCode Stats Widget for Übersicht
 // Fetches and displays LeetCode statistics (supports 力扣中国站 leetcode.cn and leetcode.com).
 
-const React = require("react");
+// 内联最小 React 兼容对象，避免 Übersicht 解析 node_modules 时找不到 react
+const React = {
+  createElement: function (type, props, ...children) {
+    const p = props || {};
+    if (children.length) p.children = children.length === 1 ? children[0] : children;
+    return { type, props: p, key: p.key || null, ref: p.ref || null };
+  },
+  // <>...</> 会编译为 React.createElement(React.Fragment, ...)，必须提供
+  Fragment: function Fragment(props) {
+    return props.children;
+  },
+};
 
 // --- CONFIGURATION ---
 const USE_LEETCODE_CN = true;
