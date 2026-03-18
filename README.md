@@ -41,7 +41,7 @@ A desktop widget for [Übersicht](https://tracesof.net/uebersicht/) that display
 5. **Install dependencies**  
    Open Terminal and run:
    ```bash
-   cd "$HOME/Library/Application Support/Übersicht/widgets"
+   cd "$HOME/Library/Application Support/Übersicht/widgets/leetcode-glance-widget"
    npm install
    ```
 
