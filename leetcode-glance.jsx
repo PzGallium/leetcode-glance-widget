@@ -209,13 +209,17 @@ export const render = ({ output, error }) => {
       );
     }
     const { totalSolved, acceptanceRate, ranking, submissionCalendar } = data;
+    const rankNum = typeof ranking === "number" ? ranking : (ranking !== "N/A" && ranking != null ? Number(ranking) : null);
+    const rankText = rankNum != null && !Number.isNaN(rankNum)
+      ? (rankNum >= 10000 && rankNum % 10000 === 0 ? rankNum.toLocaleString() + "+" : rankNum.toLocaleString())
+      : (ranking !== "N/A" && ranking != null ? String(ranking) : null);
     return (
       <div>
         <div className="header">
           <div className="leetcode-icon">LC</div>
           <div className="header-text">
             <h1 className="username">{LEETCODE_USERNAME}</h1>
-            <p className="subtitle">LeetCode Stats {ranking && ranking !== "N/A" && <span style={{marginLeft:8}}>Rank #{ranking.toLocaleString()}</span>}</p>
+            <p className="subtitle">LeetCode Stats {rankText != null && <span style={{marginLeft:8}}>Rank #{rankText}</span>}</p>
           </div>
         </div>
         <div className="content">
