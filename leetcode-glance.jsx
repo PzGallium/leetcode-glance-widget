@@ -108,13 +108,32 @@ export const className = `
 
   .section-title { font-size: 13px; font-weight: 600; color: ${LC_ORANGE}; margin: 16px 0 10px 0; letter-spacing: 0.02em; }
 
+  .calendar-wrap {
+    padding: 3px 0 10px 0;
+  }
+
+  .calendar-months {
+    display: grid;
+    grid-template-columns: repeat(26, minmax(0, 1fr));
+    align-items: end;
+    height: 14px;
+    margin-bottom: 4px;
+  }
+
+  .calendar-month {
+    color: ${LC_GRAY};
+    font-size: 9.5px;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
   .submission-calendar {
     display: grid;
     grid-template-rows: repeat(7, 1fr);
     grid-auto-flow: column;
     grid-auto-columns: 1fr;
     gap: 2px;
-    padding: 5px 0 10px 0;
   }
 
   .calendar-day {
@@ -151,12 +170,23 @@ const renderCalendar = (submissionCalendar) => {
     return <p className="loading">No submission data available.</p>;
   }
   const days = [];
-  const daysToShow = 182; // 最近半年
+  const daysToShow = 182; // Last six months
   for (let i = 0; i < daysToShow; i++) {
     const date = new Date();
     date.setDate(date.getDate() - (daysToShow - 1 - i));
     days.push(date);
   }
+  const columnCount = Math.ceil(daysToShow / 7);
+  const monthLabels = days.reduce((labels, date, index) => {
+    const isFirstVisibleDay = index === 0;
+    const isFirstDayOfMonth = date.getDate() === 1;
+    if (!isFirstVisibleDay && !isFirstDayOfMonth) return labels;
+
+    const column = Math.floor(index / 7) + 1;
+    const label = date.toLocaleDateString('en-US', { month: 'short' });
+    labels.push({ column, span: Math.min(3, columnCount - column + 1), label });
+    return labels;
+  }, []);
   const getColorLevel = (count) => {
     if (count === 0) return 'level-0';
     if (count <= 2) return 'level-1';
@@ -165,22 +195,35 @@ const renderCalendar = (submissionCalendar) => {
     return 'level-4';
   };
   return (
-    <div className="submission-calendar">
-      {days.map((date, index) => {
-        const utcMidnight = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
-        const timestamp = Math.floor(utcMidnight.getTime() / 1000);
-        const count = submissionCalendar[timestamp] || 0;
-        const levelClass = getColorLevel(count);
-        const dateString = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-        const tooltip = `${count} submissions on ${dateString}`;
-        return (
-          <div
-            key={index}
-            className={`calendar-day ${levelClass}`}
-            title={tooltip}
-          />
-        );
-      })}
+    <div className="calendar-wrap">
+      <div className="calendar-months" style={{gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`}}>
+        {monthLabels.map(({ column, span, label }, index) => (
+          <span
+            key={`${label}-${index}`}
+            className="calendar-month"
+            style={{gridColumn: `${column} / span ${span}`}}
+          >
+            {label}
+          </span>
+        ))}
+      </div>
+      <div className="submission-calendar">
+        {days.map((date, index) => {
+          const utcMidnight = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+          const timestamp = Math.floor(utcMidnight.getTime() / 1000);
+          const count = submissionCalendar[timestamp] || 0;
+          const levelClass = getColorLevel(count);
+          const dateString = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+          const tooltip = `${count} submissions on ${dateString}`;
+          return (
+            <div
+              key={index}
+              className={`calendar-day ${levelClass}`}
+              title={tooltip}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };
@@ -241,7 +284,7 @@ export const render = ({ output, error }) => {
               </div>
             )}
           </div>
-          <h3 className="section-title">Submission Calendar</h3>
+          <h3 className="section-title">Last 6 Months</h3>
           {renderCalendar(submissionCalendar)}
         </div>
       </div>
