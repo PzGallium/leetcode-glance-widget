@@ -74,8 +74,11 @@ function readSubmissionsCache() {
     if (!existsSync(p)) return null;
     const raw = readFileSync(p, "utf8");
     const data = JSON.parse(raw);
-    if (data.fetchedAt && Date.now() - data.fetchedAt < CACHE_MAX_AGE_MS && Array.isArray(data.submissions)) return data.submissions;
-    return null;
+    if (!Array.isArray(data.submissions)) return null;
+    return {
+      submissions: data.submissions,
+      isFresh: Boolean(data.fetchedAt && Date.now() - data.fetchedAt < CACHE_MAX_AGE_MS),
+    };
   } catch (_) {
     return null;
   }
@@ -154,20 +157,25 @@ async function main() {
     }
 
     if (Object.keys(submissionCalendar).length === 0) {
-      if (session) {
-        let allSubs = readSubmissionsCache();
-        if (!allSubs || allSubs.length === 0) {
-          try {
-            allSubs = await fetchAllSubmissionsWithSession(session);
-            if (allSubs.length > 0) writeSubmissionsCache(allSubs);
-          } catch (_) {}
-        }
-        if (allSubs && allSubs.length > 0) {
-          submissionCalendar = buildCalendarFromSubmissions(allSubs);
-          const accepted = allSubs.filter((s) => (s.status_display || s.status || "").toLowerCase() === "accepted").length;
-          if (allSubs.length > 0) acceptanceRate = Math.round((accepted / allSubs.length) * 1000) / 10;
-        }
+      const cached = readSubmissionsCache();
+      let historicalSubmissions = cached ? cached.submissions : [];
+
+      if (session && (!cached || !cached.isFresh)) {
+        try {
+          const fetchedSubmissions = await fetchAllSubmissionsWithSession(session);
+          if (fetchedSubmissions.length > 0) {
+            historicalSubmissions = fetchedSubmissions;
+            writeSubmissionsCache(fetchedSubmissions);
+          }
+        } catch (_) {}
       }
+
+      if (historicalSubmissions.length > 0) {
+        submissionCalendar = buildCalendarFromSubmissions(historicalSubmissions);
+        const accepted = historicalSubmissions.filter((s) => (s.status_display || s.status || "").toLowerCase() === "accepted").length;
+        acceptanceRate = Math.round((accepted / historicalSubmissions.length) * 1000) / 10;
+      }
+
       if (Object.keys(submissionCalendar).length === 0) {
         try {
           const recent = await lc.recent_submissions(username, 20);
