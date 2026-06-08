@@ -34,6 +34,23 @@ function buildCalendarFromSubmissions(submissions) {
   return cal;
 }
 
+function mergeSubmissions(...submissionLists) {
+  const merged = new Map();
+  for (const submissions of submissionLists) {
+    if (!Array.isArray(submissions)) continue;
+    for (const submission of submissions) {
+      if (!submission) continue;
+      const timestamp = submission.submitTime ?? submission.timestamp ?? "";
+      const id = submission.id ?? submission.submissionId;
+      const key = id != null
+        ? `id:${id}`
+        : `submission:${timestamp}:${submission.titleSlug ?? submission.title ?? ""}:${submission.lang ?? ""}`;
+      if (!merged.has(key)) merged.set(key, submission);
+    }
+  }
+  return [...merged.values()];
+}
+
 const CACHE_MAX_AGE_MS = 30 * 60 * 1000;
 
 async function fetchAllSubmissionsWithSession(sessionCookie) {
@@ -170,21 +187,18 @@ async function main() {
         } catch (_) {}
       }
 
-      if (historicalSubmissions.length > 0) {
-        submissionCalendar = buildCalendarFromSubmissions(historicalSubmissions);
-        const accepted = historicalSubmissions.filter((s) => (s.status_display || s.status || "").toLowerCase() === "accepted").length;
-        acceptanceRate = Math.round((accepted / historicalSubmissions.length) * 1000) / 10;
-      }
+      let recentSubmissions = [];
+      try {
+        recentSubmissions = await lc.recent_submissions(username, 20);
+      } catch (_) {}
 
-      if (Object.keys(submissionCalendar).length === 0) {
-        try {
-          const recent = await lc.recent_submissions(username, 20);
-          submissionCalendar = buildCalendarFromSubmissions(recent);
-          if (recent && recent.length > 0) {
-            const accepted = recent.filter((s) => (s.statusDisplay || s.status_display || s.status || "").toLowerCase() === "accepted").length;
-            acceptanceRate = Math.round((accepted / recent.length) * 1000) / 10;
-          }
-        } catch (_) {}
+      const calendarSubmissions = mergeSubmissions(historicalSubmissions, recentSubmissions);
+      submissionCalendar = buildCalendarFromSubmissions(calendarSubmissions);
+
+      const rateSubmissions = historicalSubmissions.length > 0 ? historicalSubmissions : recentSubmissions;
+      if (rateSubmissions.length > 0) {
+        const accepted = rateSubmissions.filter((s) => (s.statusDisplay || s.status_display || s.status || "").toLowerCase() === "accepted").length;
+        acceptanceRate = Math.round((accepted / rateSubmissions.length) * 1000) / 10;
       }
     }
 
