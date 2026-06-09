@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "LeetCode Session Sync",
+  "version": "1.0.0",
+  "description": "Syncs the LeetCode China session to the local Übersicht widget.",
+  "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDQwjj6CufQrI+eEHSbiq0R4mzdC6UqmK6DuPyPW+vRzD4s+wmkw+YmMunp+uPQ3bXfS6/+sFjkpx4sL0+9AdWJEZ/hQcZI9CjHmWHLBVkIyC/UQP33mc1dbEbyvKQmv6dwqDv18wSG5TfZBLDaaszDZvqXDJSV45+weJOhXL1xIQIDAQAB",
+  "permissions": [
+    "alarms",
+    "cookies",
+    "nativeMessaging"
+  ],
+  "host_permissions": [
+    "https://leetcode.cn/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}
