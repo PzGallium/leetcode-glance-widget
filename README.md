@@ -52,9 +52,11 @@ A desktop widget for [Übersicht](https://tracesof.net/uebersicht/) that display
 
 7. The widget should now appear on your desktop. Refresh from the Übersicht menu if needed.
 
-### Full-year calendar (optional)
+### Complete calendar data (optional)
 
-For extended calendar options, see the documentation in `lc-scripts/`.
+LeetCode China requires an authenticated session to retrieve complete
+submission history. Manual and ChatGPT Atlas automatic sync instructions are
+available in `lc-scripts/README-日历.md`.
 
 ### Moving the widget
 
@@ -111,9 +113,12 @@ Use and modify freely.
 
 7. 保存后，组件会出现在桌面上；如未出现，可在 Übersicht 菜单中刷新。
 
-### 全年提交日历（可选）
+### 完整提交日历（可选）
 
-若使用**力扣中国站**且希望组件显示**全年**提交热力图，需要提供登录 Cookie。  
+力扣中国站未登录时通常只返回最近约 20 条提交。若希望最近 6 个月的热力图完整显示，需要提供登录 Cookie。组件会按照 `Asia/Shanghai` 时区归属提交日期，避免跨日偏移。
+
+使用 ChatGPT Atlas 时，可安装仓库内的本地扩展，让浏览器自动同步 `LEETCODE_SESSION`；其他浏览器也可以手动配置 Cookie。
+
 说明与步骤见：`lc-scripts/README-日历.md`。
 
 ### 移动组件位置
@@ -126,7 +131,7 @@ Use and modify freely.
 |--------------|--------------------------------------------------|
 | 总题数       | 显示在力扣/LeetCode 上已通过的题目总数。         |
 | 通过率       | 有提交数据时显示；无数据时不显示该块。           |
-| 提交日历     | 按日的提交热力图；中国站配置 Cookie 后可显示全年。|
+| 提交日历     | 最近 6 个月的按日提交热力图；中国站配置 Cookie 后可显示完整记录。|
 
 ### 许可
 
