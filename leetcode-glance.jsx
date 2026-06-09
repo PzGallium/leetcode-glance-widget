@@ -169,21 +169,38 @@ const renderCalendar = (submissionCalendar) => {
   if (!submissionCalendar) {
     return <p className="loading">No submission data available.</p>;
   }
+  const now = new Date();
+  const today = USE_LEETCODE_CN
+    ? (() => {
+        const parts = Object.fromEntries(
+          new Intl.DateTimeFormat('en-US', {
+            timeZone: 'Asia/Shanghai',
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+          })
+            .formatToParts(now)
+            .filter(({ type }) => type !== 'literal')
+            .map(({ type, value }) => [type, Number(value)])
+        );
+        return new Date(Date.UTC(parts.year, parts.month - 1, parts.day));
+      })()
+    : new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
   const days = [];
   const daysToShow = 182; // Last six months
   for (let i = 0; i < daysToShow; i++) {
-    const date = new Date();
-    date.setDate(date.getDate() - (daysToShow - 1 - i));
+    const date = new Date(today);
+    date.setUTCDate(date.getUTCDate() - (daysToShow - 1 - i));
     days.push(date);
   }
   const columnCount = Math.ceil(daysToShow / 7);
   const monthLabels = days.reduce((labels, date, index) => {
     const isFirstVisibleDay = index === 0;
-    const isFirstDayOfMonth = date.getDate() === 1;
+    const isFirstDayOfMonth = date.getUTCDate() === 1;
     if (!isFirstVisibleDay && !isFirstDayOfMonth) return labels;
 
     const column = Math.floor(index / 7) + 1;
-    const label = date.toLocaleDateString('en-US', { month: 'short' });
+    const label = date.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
     labels.push({ column, span: Math.min(3, columnCount - column + 1), label });
     return labels;
   }, []);
@@ -209,11 +226,15 @@ const renderCalendar = (submissionCalendar) => {
       </div>
       <div className="submission-calendar">
         {days.map((date, index) => {
-          const utcMidnight = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
-          const timestamp = Math.floor(utcMidnight.getTime() / 1000);
+          const timestamp = Math.floor(date.getTime() / 1000);
           const count = submissionCalendar[timestamp] || 0;
           const levelClass = getColorLevel(count);
-          const dateString = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+          const dateString = date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            timeZone: 'UTC',
+          });
           const tooltip = `${count} submissions on ${dateString}`;
           return (
             <div

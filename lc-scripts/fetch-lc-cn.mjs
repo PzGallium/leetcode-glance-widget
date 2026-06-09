@@ -19,6 +19,13 @@ if (!username) {
   process.exit(1);
 }
 
+const leetCodeDateFormatter = new Intl.DateTimeFormat("en-US", {
+  timeZone: "Asia/Shanghai",
+  year: "numeric",
+  month: "numeric",
+  day: "numeric",
+});
+
 function buildCalendarFromSubmissions(submissions) {
   const cal = {};
   if (!Array.isArray(submissions)) return cal;
@@ -26,9 +33,13 @@ function buildCalendarFromSubmissions(submissions) {
     const t = s.submitTime != null ? s.submitTime : s.timestamp;
     if (t == null) continue;
     const ms = t < 1e12 ? t * 1000 : t;
-    const d = new Date(ms);
-    const utcMidnight = Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
-    const key = Math.floor(utcMidnight / 1000);
+    const dateParts = Object.fromEntries(
+      leetCodeDateFormatter
+        .formatToParts(new Date(ms))
+        .filter(({ type }) => type !== "literal")
+        .map(({ type, value }) => [type, Number(value)]),
+    );
+    const key = Math.floor(Date.UTC(dateParts.year, dateParts.month - 1, dateParts.day) / 1000);
     cal[key] = (cal[key] || 0) + 1;
   }
   return cal;
